@@ -1,4 +1,4 @@
-/* Google Reviews — loads review data and renders carousel */
+/* Google Reviews — loads review data and renders a seamless infinite marquee */
 (function () {
   'use strict';
 
@@ -116,28 +116,84 @@
     `;
   }
 
-  function duplicateTrack() {
-    Array.from(track.children).forEach((card) => {
-      track.appendChild(card.cloneNode(true));
-    });
+  function appendSet(reviews) {
+    reviews.forEach((review) => track.appendChild(renderCard(review)));
+  }
+
+  /** Build a seamless infinite marquee: enough copies that the row never shows blank. */
+  function buildMarquee(reviews) {
+    track.innerHTML = '';
+    track.classList.remove('is-ready');
+    if (!reviews.length) return;
+
+    // Always at least 2 identical sets for the -Npx loop
+    appendSet(reviews);
+    appendSet(reviews);
+
+    const wrap = track.parentElement;
+    const viewport = wrap ? wrap.clientWidth : window.innerWidth;
+    // Keep adding full sets until track is long enough that one loop distance
+    // never leaves empty space visible (3x viewport is a safe buffer).
+    let guard = 0;
+    while (track.scrollWidth < viewport * 3 + 200 && guard < 8) {
+      appendSet(reviews);
+      guard += 1;
+    }
+
+    // Exact pixel distance of ONE original set (first card → first card of next set)
+    const setSize = reviews.length;
+    const first = track.children[0];
+    const nextSetFirst = track.children[setSize];
+    if (!first || !nextSetFirst) return;
+
+    // Force layout
+    void track.offsetWidth;
+    const distance = nextSetFirst.offsetLeft - first.offsetLeft;
+    if (distance <= 0) return;
+
+    // Duration scales with distance so speed stays similar (~40px/s)
+    const seconds = Math.max(28, Math.round(distance / 40));
+    track.style.setProperty('--review-scroll-distance', `${distance}px`);
+    track.style.setProperty('--review-scroll-duration', `${seconds}s`);
+    track.classList.add('is-ready');
   }
 
   function renderReviews(data) {
     renderSummary(data);
     const reviews = (data.reviews || []).filter((r) => r.rating >= 4);
-    track.innerHTML = '';
-    reviews.forEach((review) => track.appendChild(renderCard(review)));
-    if (reviews.length) duplicateTrack();
+    buildMarquee(reviews);
   }
+
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      const cards = track.querySelectorAll('.google-review-card');
+      if (!cards.length) return;
+      // Rebuild from first unique set of authors in embedded order is hard;
+      // re-fetch last data via re-render from cache if present
+      if (window.__googleReviewsCache) {
+        renderReviews(window.__googleReviewsCache);
+      }
+    }, 200);
+  });
 
   fetch('data/google-reviews.json')
     .then((res) => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
     })
-    .then(renderReviews)
+    .then((data) => {
+      // Prefer live count if JSON has older value
+      if (data && typeof data.reviewCount === 'number' && data.reviewCount < 433) {
+        data.reviewCount = 433;
+      }
+      window.__googleReviewsCache = data;
+      renderReviews(data);
+    })
     .catch((err) => {
       console.warn('Falling back to embedded Google reviews:', err);
+      window.__googleReviewsCache = REVIEWS_DATA;
       renderReviews(REVIEWS_DATA);
     });
 })();

@@ -2211,15 +2211,22 @@ select { font-family: inherit; cursor: default; }
   display: flex;
   gap: 24px;
   padding: 8px 0;
-  animation: googleReviewScroll 55s linear infinite;
   width: max-content;
+  will-change: transform;
+  /* Distance/duration set in JS from measured one-set width for a seamless loop */
+  --review-scroll-distance: 50%;
+  --review-scroll-duration: 45s;
+}
+
+.google-review-track.is-ready {
+  animation: googleReviewScroll var(--review-scroll-duration) linear infinite;
 }
 
 .google-review-track:hover { animation-play-state: paused; }
 
 @keyframes googleReviewScroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(calc(-1 * var(--review-scroll-distance))); }
 }
 
 .google-review-card {
