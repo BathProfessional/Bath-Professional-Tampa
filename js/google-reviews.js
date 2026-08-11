@@ -1,4 +1,4 @@
-﻿/* Google Reviews â€” loads review data and renders carousel */
+/* Google Reviews — loads review data and renders carousel */
 (function () {
   'use strict';
 
@@ -56,7 +56,7 @@
 
   function stars(rating) {
     const full = Math.round(rating);
-    return 'â˜…'.repeat(full) + 'â˜†'.repeat(5 - full);
+    return '★'.repeat(full) + '☆'.repeat(5 - full);
   }
 
   function initials(name) {
