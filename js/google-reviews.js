@@ -1,4 +1,4 @@
-/* Google Reviews — loads review data and renders carousel */
+﻿/* Google Reviews â€” loads review data and renders carousel */
 (function () {
   'use strict';
 
@@ -9,7 +9,7 @@
   const REVIEWS_DATA = {
     business: 'Bath Professional',
     rating: 5.0,
-    reviewCount: 427,
+    reviewCount: 433,
     googleUrl: 'https://share.google/2lFzTu5iHsSYiOprH',
     mapsUrl: 'https://www.google.com/maps/place/Bath+Professional/@27.8128045,-82.6437443,17z',
     writeReviewUrl: 'https://g.page/r/CRrx6UP1Y3zdEBM/review',
@@ -56,7 +56,7 @@
 
   function stars(rating) {
     const full = Math.round(rating);
-    return '★'.repeat(full) + '☆'.repeat(5 - full);
+    return 'â˜…'.repeat(full) + 'â˜†'.repeat(5 - full);
   }
 
   function initials(name) {
