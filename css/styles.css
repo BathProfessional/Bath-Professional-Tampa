@@ -67,6 +67,12 @@ select { font-family: inherit; cursor: default; }
   padding: 120px 0 80px;
 }
 
+/* Skip layout/paint work for off-screen sections (looks identical) */
+.section:not(.hero):not(.google-reviews) {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
+}
+
 .section-header {
   text-align: center;
   margin-bottom: 64px;

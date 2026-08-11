@@ -130,8 +130,8 @@
     appendSet(reviews);
     appendSet(reviews);
 
-    const wrap = track.parentElement;
-    const viewport = wrap ? wrap.clientWidth : window.innerWidth;
+    const trackWrap = track.parentElement;
+    const viewport = trackWrap ? trackWrap.clientWidth : window.innerWidth;
     // Keep adding full sets until track is long enough that one loop distance
     // never leaves empty space visible (3x viewport is a safe buffer).
     let guard = 0;
@@ -156,6 +156,16 @@
     track.style.setProperty('--review-scroll-distance', `${distance}px`);
     track.style.setProperty('--review-scroll-duration', `${seconds}s`);
     track.classList.add('is-ready');
+
+    // Pause marquee when reviews section is off-screen
+    const section = track.closest('.google-reviews') || trackWrap;
+    if (section && 'IntersectionObserver' in window) {
+      if (track._io) track._io.disconnect();
+      track._io = new IntersectionObserver(([entry]) => {
+        track.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+      }, { rootMargin: '100px 0px', threshold: 0.05 });
+      track._io.observe(section);
+    }
   }
 
   function renderReviews(data) {

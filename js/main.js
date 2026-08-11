@@ -25,6 +25,7 @@
   const cursor = document.getElementById('cursor');
   if (cursor && window.matchMedia('(pointer: fine)').matches) {
     let visible = false;
+    const hoverSelector = 'a, button, .btn, .header-phone, .faq-question, .ba-comparison, .service-card, select, label, input, textarea, summary';
 
     const move = (e) => {
       cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
@@ -41,15 +42,18 @@
       visible = false;
       cursor.classList.remove('is-active', 'hover', 'click');
     });
-    document.addEventListener('mouseenter', () => {
-      // next mousemove re-activates
-    });
 
-    const hoverSelector = 'a, button, .btn, .header-phone, .faq-question, .ba-comparison, .service-card, select, label, input, textarea, summary';
-    document.querySelectorAll(hoverSelector).forEach((el) => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
+    // Event delegation (relatedTarget check avoids per-element listeners)
+    document.addEventListener('pointerover', (e) => {
+      const enter = e.target.closest?.(hoverSelector);
+      const from = e.relatedTarget?.closest?.(hoverSelector);
+      if (enter && !from) cursor.classList.add('hover');
+    }, { passive: true });
+    document.addEventListener('pointerout', (e) => {
+      const leave = e.target.closest?.(hoverSelector);
+      const to = e.relatedTarget?.closest?.(hoverSelector);
+      if (leave && !to) cursor.classList.remove('hover');
+    }, { passive: true });
   }
 
   // ─── Header Scroll ───
@@ -134,7 +138,7 @@
     if (sparkleField) {
       const colors = ['teal', 'gold', 'white'];
       // Fewer DOM sparkles = far less composite cost
-      const count = isMobileHero ? 6 : 18;
+      const count = isMobileHero ? 4 : 12;
 
       for (let i = 0; i < count; i++) {
         const el = document.createElement('span');
@@ -161,8 +165,8 @@
 
       heroSection.addEventListener('mousemove', (e) => {
         const now = performance.now();
-        // Throttle harder (~12 sparks/sec) for smoother main thread
-        if (now - lastSpawn < 80) return;
+        // Throttle (~8 sparks/sec) for smoother main thread
+        if (now - lastSpawn < 120) return;
         lastSpawn = now;
 
         if (rectStale || !heroRect) {
@@ -181,7 +185,7 @@
         spark.style.setProperty('--sparkle-color', sparkleColors[Math.floor(Math.random() * 3)]);
         mouseSparkles.appendChild(spark);
 
-        if (mouseSparkles.children.length > 12) {
+        if (mouseSparkles.children.length > 8) {
           mouseSparkles.firstElementChild?.remove();
         }
         spark.addEventListener('animationend', () => spark.remove(), { once: true });
@@ -309,14 +313,14 @@
       }
     }
 
-    const particleCount = 42;
+    const particleCount = 24;
     for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
     function animateParticles(ts) {
       particleFrame = 0;
-      if (!running) return;
-      // Cap ~30fps — still looks smooth, half the main-thread cost
-      if (ts - lastFrame < 32) {
+      if (!running || document.hidden) return;
+      // Cap ~24fps — still looks smooth, lower main-thread cost
+      if (ts - lastFrame < 41) {
         particleFrame = requestAnimationFrame(animateParticles);
         return;
       }
@@ -332,45 +336,48 @@
     startParticles();
   }
 
-  // ─── Section Scroll Animations ───
+  // ─── Section Scroll Animations (once: true = free after play) ───
   gsap.utils.toArray('.section-header').forEach((el) => {
     gsap.from(el.children, {
-      scrollTrigger: { trigger: el, start: 'top 80%' },
+      scrollTrigger: { trigger: el, start: 'top 80%', once: true },
       opacity: 0,
       y: 40,
       duration: 0.8,
       stagger: 0.1,
       ease: 'power3.out',
+      force3D: true,
     });
   });
 
   gsap.utils.toArray('.service-card').forEach((card, i) => {
     gsap.from(card, {
-      scrollTrigger: { trigger: card, start: 'top 85%' },
+      scrollTrigger: { trigger: card, start: 'top 85%', once: true },
       opacity: 0,
       y: 60,
       duration: 0.7,
       delay: i * 0.1,
       ease: 'power3.out',
+      force3D: true,
     });
   });
 
   gsap.utils.toArray('.why-card').forEach((card, i) => {
     gsap.from(card, {
-      scrollTrigger: { trigger: card, start: 'top 85%' },
+      scrollTrigger: { trigger: card, start: 'top 85%', once: true },
       opacity: 0,
       y: 40,
       scale: 0.95,
       duration: 0.6,
       delay: i * 0.08,
       ease: 'back.out(1.2)',
+      force3D: true,
     });
   });
 
   // Stats fly-in
   gsap.utils.toArray('.stat-card').forEach((stat, i) => {
     gsap.to(stat, {
-      scrollTrigger: { trigger: '.stats-grid', start: 'top 75%' },
+      scrollTrigger: { trigger: '.stats-grid', start: 'top 75%', once: true },
       opacity: 1,
       y: 0,
       scale: 1,
@@ -574,6 +581,16 @@
       [videoModal].forEach((modal) => {
         if (modal?.classList.contains('open')) closeLightbox(modal);
       });
+    }
+  });
+
+  // Pause heavy work when the tab is hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      gsap.globalTimeline.pause();
+    } else {
+      gsap.globalTimeline.resume();
+      ScrollTrigger.refresh();
     }
   });
 
