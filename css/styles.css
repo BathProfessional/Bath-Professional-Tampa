@@ -1578,16 +1578,20 @@ select { font-family: inherit; cursor: pointer; }
 .difference-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: start;
+  grid-template-areas:
+    "content colors"
+    "last palette";
+  align-items: stretch;
   min-height: 0;
 }
 
 .difference-content {
+  grid-area: content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-self: start;
-  padding: 72px 60px 36px;
+  box-sizing: border-box;
+  padding: 72px 60px 20px;
   background: var(--navy-900);
 }
 
@@ -1647,16 +1651,35 @@ select { font-family: inherit; cursor: pointer; }
 }
 
 .color-wheel-section {
+  grid-area: colors;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  align-self: start;
+  box-sizing: border-box;
   min-height: 0;
-  padding: 72px 40px 36px;
+  padding: 72px 40px 20px;
   background: var(--navy-950);
   position: relative;
   overflow: visible;
+}
+
+.stats-grid-last {
+  grid-area: last;
+  margin: 0;
+  padding: 0 60px 40px;
+  background: var(--navy-900);
+  align-content: start;
+}
+
+.color-palette-block {
+  grid-area: palette;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 0 40px 40px;
+  background: var(--navy-950);
 }
 
 .color-wheel-section::before {
@@ -1856,8 +1879,17 @@ select { font-family: inherit; cursor: pointer; }
 }
 
 @media (max-width: 900px) {
-  .difference-split { grid-template-columns: 1fr; }
-  .difference-content { padding: 80px 24px; }
+  .difference-split {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "content"
+      "colors"
+      "last"
+      "palette";
+  }
+  .difference-content { padding: 80px 24px 20px; }
+  .stats-grid-last { padding: 0 24px 24px; }
+  .color-palette-block { padding: 0 24px 56px; }
 }
 
 /* GOOGLE REVIEWS */
@@ -2949,11 +2981,19 @@ select { font-family: inherit; cursor: pointer; }
   }
 
   .difference-content {
-    padding: 56px 20px;
+    padding: 56px 20px 16px;
   }
 
   .color-wheel-section {
-    padding: 48px 20px 56px;
+    padding: 48px 20px 16px;
+  }
+
+  .stats-grid-last {
+    padding: 0 20px 20px;
+  }
+
+  .color-palette-block {
+    padding: 0 20px 48px;
   }
 
   .color-wheel {
