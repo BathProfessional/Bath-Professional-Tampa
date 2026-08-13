@@ -40,10 +40,10 @@
     input, textarea { cursor: text !important; }
     .ba-comparison, .ba-comparison *, .ba-handle, .ba-handle * { cursor: ew-resize !important; }
   </style>
-  <link rel="preload" href="css/styles.css?v=diff8" as="style">
+  <link rel="preload" href="css/styles.css?v=diff9" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" href="css/styles.css?v=diff8">
+  <link rel="stylesheet" href="css/styles.css?v=diff9">
   <link rel="dns-prefetch" href="https://cdn.livechatinc.com">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -597,7 +597,7 @@
       <div class="difference-split">
         <div class="difference-content">
           <span class="section-tag">About Bath Professional</span>
-          <h2 class="section-title">Why We're the <span class="rank-one">#<span class="rank-digit">1</span></span> <span class="text-teal">Choice</span></h2>
+          <h2 class="section-title why-title"><span>Why We're the</span> <span class="rank-one">#<span class="rank-digit">1</span></span> <span class="text-teal">Choice</span></h2>
           <div class="stats-grid">
             <div class="stat-card" data-stat="1">
               <span class="stat-number"><span class="stat-digit">1</span>-DAY</span>
@@ -614,6 +614,14 @@
             <div class="stat-card" data-stat="4">
               <span class="stat-number">$<span class="stat-digit">1</span>MIL</span>
               <span class="stat-label">Liability Insured</span>
+            </div>
+            <div class="stat-card" data-stat="5">
+              <span class="stat-number">FULLY</span>
+              <span class="stat-label">Licensed</span>
+            </div>
+            <div class="stat-card" data-stat="6">
+              <span class="stat-number">GUARANTEED</span>
+              <span class="stat-label">Customer Satisfaction</span>
             </div>
           </div>
         </div>
@@ -637,28 +645,16 @@
             <div class="color-preview" id="colorPreview">
               <div class="color-preview-surface"></div>
             </div>
+            <div class="color-palette" id="colorPalette" aria-label="All finish colors">
+              <button class="color-chip" type="button" data-color="Pure White" data-code="Standard" data-swatch="#FFFFFF"><span class="color-chip-dot" style="background:#FFFFFF"></span>Pure White</button>
+              <button class="color-chip active" type="button" data-color="China White" data-code="Most Popular" data-swatch="#F5F2EA"><span class="color-chip-dot" style="background:#F5F2EA"></span>China White</button>
+              <button class="color-chip" type="button" data-color="Kohler White" data-code="Standard" data-swatch="#D2D0C4"><span class="color-chip-dot" style="background:#D2D0C4"></span>Kohler White</button>
+              <button class="color-chip" type="button" data-color="Biscuit" data-code="Standard" data-swatch="#E8DCC8"><span class="color-chip-dot" style="background:#E8DCC8"></span>Biscuit</button>
+              <button class="color-chip" type="button" data-color="Bone" data-code="Standard" data-swatch="#E2D0B5"><span class="color-chip-dot" style="background:#E2D0B5"></span>Bone</button>
+              <button class="color-chip" type="button" data-color="Almond" data-code="Standard" data-swatch="#CDB896"><span class="color-chip-dot" style="background:#CDB896"></span>Almond</button>
+            </div>
+            <p class="color-custom-note">Don’t see your exact shade? We can match and refinish in <strong>any custom color</strong> — just ask when you request your free estimate.</p>
           </div>
-        </div>
-        <div class="stats-grid stats-grid-last">
-          <div class="stat-card" data-stat="5">
-            <span class="stat-number">FULLY</span>
-            <span class="stat-label">Licensed</span>
-          </div>
-          <div class="stat-card" data-stat="6">
-            <span class="stat-number">GUARANTEED</span>
-            <span class="stat-label">Customer Satisfaction</span>
-          </div>
-        </div>
-        <div class="color-palette-block">
-          <div class="color-palette" id="colorPalette" aria-label="All finish colors">
-            <button class="color-chip" type="button" data-color="Pure White" data-code="Standard" data-swatch="#FFFFFF"><span class="color-chip-dot" style="background:#FFFFFF"></span>Pure White</button>
-            <button class="color-chip active" type="button" data-color="China White" data-code="Most Popular" data-swatch="#F5F2EA"><span class="color-chip-dot" style="background:#F5F2EA"></span>China White</button>
-            <button class="color-chip" type="button" data-color="Kohler White" data-code="Standard" data-swatch="#D2D0C4"><span class="color-chip-dot" style="background:#D2D0C4"></span>Kohler White</button>
-            <button class="color-chip" type="button" data-color="Biscuit" data-code="Standard" data-swatch="#E8DCC8"><span class="color-chip-dot" style="background:#E8DCC8"></span>Biscuit</button>
-            <button class="color-chip" type="button" data-color="Bone" data-code="Standard" data-swatch="#E2D0B5"><span class="color-chip-dot" style="background:#E2D0B5"></span>Bone</button>
-            <button class="color-chip" type="button" data-color="Almond" data-code="Standard" data-swatch="#CDB896"><span class="color-chip-dot" style="background:#CDB896"></span>Almond</button>
-          </div>
-          <p class="color-custom-note">Don’t see your exact shade? We can match and refinish in <strong>any custom color</strong> — just ask when you request your free estimate.</p>
         </div>
       </div>
     </section>
