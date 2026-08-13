@@ -1595,22 +1595,30 @@ select { font-family: inherit; cursor: pointer; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.28em 0.32em;
-  line-height: 1.15;
+  gap: 0.18em 0.26em;
+  line-height: 1;
 }
 
+.why-title > span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* Outfit #1 sits optically high vs Cormorant — drop to the serif midline */
 .why-title .rank-one {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  font-size: 0.86em;
+  font-size: 0.78em;
+  letter-spacing: -0.05em;
   position: relative;
-  top: 0.06em;
+  top: 0.22em;
 }
 
 .why-title .rank-digit {
-  display: inline-block;
+  display: inline;
   font-size: 1em;
   line-height: 1;
 }
