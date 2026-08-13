@@ -1531,11 +1531,15 @@ select { font-family: inherit; cursor: pointer; }
 
 .service-btn {
   margin-top: auto;
-  align-self: flex-start;
-  display: inline-block;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: 12px 24px;
   font-size: 0.8125rem;
   font-weight: 600;
+  line-height: 1;
   color: var(--teal-bright);
   text-decoration: none;
   border: 1px solid var(--teal);
@@ -1602,16 +1606,16 @@ select { font-family: inherit; cursor: pointer; }
 .why-title .rank-one {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   line-height: 1;
-  font-size: 0.88em;
-  transform: none;
+  font-size: 0.86em;
   position: relative;
-  top: 0.02em;
+  top: 0.06em;
 }
 
 .why-title .rank-digit {
   display: inline-block;
-  font-size: 1.02em;
+  font-size: 1em;
   line-height: 1;
 }
 
