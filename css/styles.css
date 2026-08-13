@@ -1591,6 +1591,12 @@ select { font-family: inherit; cursor: pointer; }
   background: var(--navy-900);
 }
 
+.difference-content .section-tag {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
 .why-title {
   display: flex;
   flex-wrap: wrap;
