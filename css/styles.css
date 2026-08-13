@@ -68,7 +68,7 @@ select { font-family: inherit; cursor: pointer; }
 }
 
 /* Skip layout/paint work for off-screen sections (looks identical) */
-.section:not(.hero):not(.google-reviews) {
+.section:not(.hero):not(.google-reviews):not(.difference) {
   content-visibility: auto;
   contain-intrinsic-size: 1px 900px;
 }
@@ -1568,23 +1568,26 @@ select { font-family: inherit; cursor: pointer; }
 }
 
 /* DIFFERENCE */
-.difference {
+.section.difference {
   padding: 0;
-  min-height: auto;
+  min-height: 0;
+  content-visibility: visible;
+  contain-intrinsic-size: auto;
 }
 
 .difference-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: start;
-  min-height: auto;
+  min-height: 0;
 }
 
 .difference-content {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 80px 60px;
+  align-self: start;
+  padding: 72px 60px 36px;
   background: var(--navy-900);
 }
 
@@ -1648,8 +1651,9 @@ select { font-family: inherit; cursor: pointer; }
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100%;
-  padding: 80px 40px;
+  align-self: start;
+  min-height: 0;
+  padding: 72px 40px 36px;
   background: var(--navy-950);
   position: relative;
   overflow: visible;
