@@ -139,6 +139,7 @@ select { font-family: inherit; cursor: default; }
   z-index: 10050;
   opacity: 0;
   transition: opacity 0.2s ease;
+  will-change: transform;
 }
 
 .cursor.is-active {
@@ -311,18 +312,18 @@ select { font-family: inherit; cursor: default; }
   margin: -2px 0 0 -2px;
 }
 
-@media (pointer: fine) {
-  html,
-  body,
-  body * {
-    cursor: none !important;
-  }
+/* Only hide the OS cursor after JS confirms the custom cursor is running.
+   Firefox can match (pointer: fine) in CSS but not in JS — that used to leave no cursor. */
+html.has-custom-cursor,
+html.has-custom-cursor body,
+html.has-custom-cursor body * {
+  cursor: none !important;
 }
 
-@media (max-width: 768px), (pointer: coarse) {
-  html,
-  body,
-  body * {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor body * {
     cursor: auto !important;
   }
   .cursor { display: none !important; }

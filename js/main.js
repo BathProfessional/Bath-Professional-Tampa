@@ -35,9 +35,18 @@
 
   // ─── Custom Cursor (neon crosshair — snappy, no lag trail) ───
   const cursor = document.getElementById('cursor');
-  if (cursor && window.matchMedia('(pointer: fine)').matches) {
+  const touchOnly = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (cursor && !touchOnly && window.innerWidth > 768) {
+    document.documentElement.classList.add('has-custom-cursor');
+
     let visible = false;
     const hoverSelector = 'a, button, .btn, .header-phone, .faq-question, .ba-comparison, .service-card, select, label, input, textarea, summary';
+
+    const closestEl = (node, sel) => {
+      if (!node) return null;
+      if (node.nodeType === 3) node = node.parentElement;
+      return node && node.closest ? node.closest(sel) : null;
+    };
 
     let pendingX = 0;
     let pendingY = 0;
@@ -56,23 +65,29 @@
       });
     };
 
+    // window + document: Firefox can drop document mousemove over some overlays
+    window.addEventListener('mousemove', move, { passive: true });
     document.addEventListener('mousemove', move, { passive: true });
     document.addEventListener('mousedown', () => cursor.classList.add('click'));
     document.addEventListener('mouseup', () => cursor.classList.remove('click'));
-    document.addEventListener('mouseleave', () => {
+
+    // Firefox fires document mouseleave when crossing iframes (LiveChat).
+    // Only hide when the pointer actually leaves the window.
+    document.addEventListener('mouseout', (e) => {
+      if (e.relatedTarget || e.toElement) return;
       visible = false;
       cursor.classList.remove('is-active', 'hover', 'click');
-    });
+    }, { passive: true });
 
-    // Event delegation (relatedTarget check avoids per-element listeners)
-    document.addEventListener('pointerover', (e) => {
-      const enter = e.target.closest?.(hoverSelector);
-      const from = e.relatedTarget?.closest?.(hoverSelector);
+    document.addEventListener('mouseover', (e) => {
+      const enter = closestEl(e.target, hoverSelector);
+      const from = closestEl(e.relatedTarget, hoverSelector);
       if (enter && !from) cursor.classList.add('hover');
     }, { passive: true });
-    document.addEventListener('pointerout', (e) => {
-      const leave = e.target.closest?.(hoverSelector);
-      const to = e.relatedTarget?.closest?.(hoverSelector);
+    document.addEventListener('mouseout', (e) => {
+      if (!e.relatedTarget && !e.toElement) return;
+      const leave = closestEl(e.target, hoverSelector);
+      const to = closestEl(e.relatedTarget, hoverSelector);
       if (leave && !to) cursor.classList.remove('hover');
     }, { passive: true });
   }
