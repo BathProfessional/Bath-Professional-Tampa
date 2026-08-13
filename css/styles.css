@@ -1576,8 +1576,8 @@ select { font-family: inherit; cursor: pointer; }
 .difference-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: stretch;
-  min-height: 100vh;
+  align-items: start;
+  min-height: auto;
 }
 
 .difference-content {
@@ -1592,7 +1592,7 @@ select { font-family: inherit; cursor: pointer; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  margin: 40px 0;
+  margin: 40px 0 0;
 }
 
 .stat-card {
@@ -1649,7 +1649,7 @@ select { font-family: inherit; cursor: pointer; }
   align-items: center;
   justify-content: flex-start;
   min-height: 100%;
-  padding: 40px 40px 80px;
+  padding: 80px 40px;
   background: var(--navy-950);
   position: relative;
   overflow: visible;
