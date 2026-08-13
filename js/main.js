@@ -5,20 +5,32 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // ─── Lenis Smooth Scroll (desktop only — native scroll on touch devices) ───
+  // ─── Lenis Smooth Scroll (desktop only — script loaded only when needed) ───
   const useLenis = window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 1024;
   let lenis = null;
 
-  if (useLenis) {
-    lenis = new Lenis({
+  function startLenis() {
+    if (!window.Lenis || lenis) return;
+    lenis = new window.Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
-
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
+  }
+
+  if (useLenis) {
+    if (window.Lenis) {
+      startLenis();
+    } else {
+      const lenisScript = document.createElement('script');
+      lenisScript.src = 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js';
+      lenisScript.async = true;
+      lenisScript.onload = startLenis;
+      document.head.appendChild(lenisScript);
+    }
   }
 
   // ─── Custom Cursor (neon crosshair — snappy, no lag trail) ───
@@ -27,12 +39,21 @@
     let visible = false;
     const hoverSelector = 'a, button, .btn, .header-phone, .faq-question, .ba-comparison, .service-card, select, label, input, textarea, summary';
 
+    let pendingX = 0;
+    let pendingY = 0;
+    let moveFrame = 0;
     const move = (e) => {
-      cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-      if (!visible) {
-        visible = true;
-        cursor.classList.add('is-active');
-      }
+      pendingX = e.clientX;
+      pendingY = e.clientY;
+      if (moveFrame) return;
+      moveFrame = requestAnimationFrame(() => {
+        moveFrame = 0;
+        cursor.style.transform = `translate3d(${pendingX}px, ${pendingY}px, 0)`;
+        if (!visible) {
+          visible = true;
+          cursor.classList.add('is-active');
+        }
+      });
     };
 
     document.addEventListener('mousemove', move, { passive: true });

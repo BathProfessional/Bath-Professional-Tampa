@@ -32,13 +32,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preload" as="image" href="images/hero-pristine.jpg" fetchpriority="high">
-  <link rel="preload" as="image" href="images/hero-pristine-mobile.jpg" media="(max-width: 768px)" fetchpriority="high">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" type="image/webp" href="images/hero-pristine.webp" media="(min-width: 769px)" fetchpriority="high">
+  <link rel="preload" as="image" type="image/webp" href="images/hero-pristine-mobile.webp" media="(max-width: 768px)" fetchpriority="high">
+  <link rel="preload" href="css/styles.css" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="dns-prefetch" href="https://cdn.livechatinc.com">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
   <script defer src="js/forms.js"></script>
   <script defer src="js/main.js"></script>
   <script defer src="js/google-reviews.js"></script>
@@ -199,7 +201,9 @@
     <section class="section hero" id="hero">
       <div class="hero-video-wrap">
         <picture>
+          <source media="(max-width: 768px)" type="image/webp" srcset="images/hero-pristine-mobile.webp">
           <source media="(max-width: 768px)" srcset="images/hero-pristine-mobile.jpg">
+          <source type="image/webp" srcset="images/hero-pristine.webp">
           <img class="hero-bg" src="images/hero-pristine.jpg" alt="Bathtub refinishing in Tampa FL — gleaming refinished clawfoot tub by Bath Professional" width="1280" height="720" fetchpriority="high" decoding="async">
         </picture>
         <div class="hero-overlay"></div>
@@ -298,9 +302,9 @@
           <div class="ba-slides" id="baSlides">
             <!-- Slide 0: Tub -->
             <div class="ba-slide active" data-index="0">
-              <div class="ba-comparison" data-before="images/before-1.jpg" data-after="images/after-1.jpg">
-                <img class="ba-after" src="images/after-1.jpg?v=17" alt="After bathtub refinishing Tampa FL — restored tub by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
-                <img class="ba-before" src="images/before-1.jpg?v=17" alt="Before bathtub refinishing Tampa — worn tub prior to Bath Professional reglazing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+              <div class="ba-comparison" data-before="images/before-1.webp" data-after="images/after-1.webp">
+                <img class="ba-after" src="images/after-1.webp" alt="After bathtub refinishing Tampa FL — restored tub by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+                <img class="ba-before" src="images/before-1.webp" alt="Before bathtub refinishing Tampa — worn tub prior to Bath Professional reglazing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
                 <div class="ba-handle">
                   <div class="ba-handle-line"></div>
                   <div class="ba-handle-circle">
@@ -319,9 +323,9 @@
             </div>
             <!-- Slide 1: Bathroom -->
             <div class="ba-slide" data-index="1">
-              <div class="ba-comparison" data-before="images/before-3.jpg" data-after="images/after-3.jpg">
-                <img class="ba-after" src="images/after-3.jpg?v=11" alt="After: bathroom refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
-                <img class="ba-before" src="images/before-3.jpg?v=11" alt="Before: bathroom prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+              <div class="ba-comparison" data-before="images/before-3.webp" data-after="images/after-3.webp">
+                <img class="ba-after" src="images/after-3.webp" alt="After: bathroom refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+                <img class="ba-before" src="images/before-3.webp" alt="Before: bathroom prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
                 <div class="ba-handle"><div class="ba-handle-line"></div><div class="ba-handle-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M5 9l-3 3 3 3M19 9l3 3-3 3"/></svg></div></div>
                 <span class="ba-label ba-label-before">Before</span>
                 <span class="ba-label ba-label-after">After</span>
@@ -335,9 +339,9 @@
             </div>
             <!-- Slide 2: Sink -->
             <div class="ba-slide" data-index="2">
-              <div class="ba-comparison" data-before="images/before-4.jpg" data-after="images/after-4.jpg">
-                <img class="ba-after" src="images/after-4.jpg?v=12" alt="After: sink refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
-                <img class="ba-before" src="images/before-4.jpg?v=12" alt="Before: sink prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+              <div class="ba-comparison" data-before="images/before-4.webp" data-after="images/after-4.webp">
+                <img class="ba-after" src="images/after-4.webp" alt="After: sink refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+                <img class="ba-before" src="images/before-4.webp" alt="Before: sink prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
                 <div class="ba-handle"><div class="ba-handle-line"></div><div class="ba-handle-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M5 9l-3 3 3 3M19 9l3 3-3 3"/></svg></div></div>
                 <span class="ba-label ba-label-before">Before</span>
                 <span class="ba-label ba-label-after">After</span>
@@ -351,9 +355,9 @@
             </div>
             <!-- Slide 3: Countertop -->
             <div class="ba-slide" data-index="3">
-              <div class="ba-comparison" data-before="images/before-5.jpg" data-after="images/after-5.jpg">
-                <img class="ba-after" src="images/after-5.jpg?v=14" alt="After: countertop refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
-                <img class="ba-before" src="images/before-5.jpg?v=14" alt="Before: countertop prior to Bath Professional reglazing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+              <div class="ba-comparison" data-before="images/before-5.webp" data-after="images/after-5.webp">
+                <img class="ba-after" src="images/after-5.webp" alt="After: countertop refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+                <img class="ba-before" src="images/before-5.webp" alt="Before: countertop prior to Bath Professional reglazing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
                 <div class="ba-handle"><div class="ba-handle-line"></div><div class="ba-handle-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M5 9l-3 3 3 3M19 9l3 3-3 3"/></svg></div></div>
                 <span class="ba-label ba-label-before">Before</span>
                 <span class="ba-label ba-label-after">After</span>
@@ -367,9 +371,9 @@
             </div>
             <!-- Slide 4: Cabinet -->
             <div class="ba-slide" data-index="4">
-              <div class="ba-comparison" data-before="images/before-6.jpg" data-after="images/after-6.jpg">
-                <img class="ba-after" src="images/after-6.jpg?v=15" alt="After: cabinet refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
-                <img class="ba-before" src="images/before-6.jpg?v=15" alt="Before: cabinets prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+              <div class="ba-comparison" data-before="images/before-6.webp" data-after="images/after-6.webp">
+                <img class="ba-after" src="images/after-6.webp" alt="After: cabinet refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+                <img class="ba-before" src="images/before-6.webp" alt="Before: cabinets prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
                 <div class="ba-handle"><div class="ba-handle-line"></div><div class="ba-handle-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M5 9l-3 3 3 3M19 9l3 3-3 3"/></svg></div></div>
                 <span class="ba-label ba-label-before">Before</span>
                 <span class="ba-label ba-label-after">After</span>
@@ -383,9 +387,9 @@
             </div>
             <!-- Slide 5: Shower (last) -->
             <div class="ba-slide" data-index="5">
-              <div class="ba-comparison" data-before="images/before-2.jpg" data-after="images/after-2.jpg">
-                <img class="ba-after" src="images/after-2.jpg?v=18" alt="After: shower refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
-                <img class="ba-before" src="images/before-2.jpg?v=18" alt="Before: shower prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+              <div class="ba-comparison" data-before="images/before-2.webp" data-after="images/after-2.webp">
+                <img class="ba-after" src="images/after-2.webp" alt="After: shower refinishing by Bath Professional" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+                <img class="ba-before" src="images/before-2.webp" alt="Before: shower prior to Bath Professional refinishing" width="1920" height="1080" loading="lazy" decoding="async" fetchpriority="low">
                 <div class="ba-handle"><div class="ba-handle-line"></div><div class="ba-handle-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M5 9l-3 3 3 3M19 9l3 3-3 3"/></svg></div></div>
                 <span class="ba-label ba-label-before">Before</span>
                 <span class="ba-label ba-label-after">After</span>
@@ -941,7 +945,11 @@
     window.__lc.license = 19896439;
     window.__lc.integration_name = "manual_onboarding";
     window.__lc.product_name = "livechat";
-    ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};!n.__lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
+    function bootLiveChat() {
+      ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};!n.__lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(bootLiveChat, { timeout: 3500 });
+    else setTimeout(bootLiveChat, 2200);
   </script>
   <noscript><a href="https://www.livechat.com/chat-with/19896439/" rel="nofollow">Chat with us</a>, powered by <a href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
   <!-- End of LiveChat code -->
