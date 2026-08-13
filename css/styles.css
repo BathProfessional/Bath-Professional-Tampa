@@ -3204,3 +3204,30 @@ select { font-family: inherit; cursor: pointer; }
     font-size: 0.75rem;
   }
 }
+
+/* Native OS cursors — last so nothing can hide the pointer in Firefox/Edge */
+html, body, body * {
+  cursor: auto !important;
+}
+a, a *,
+button, button *,
+.btn, .btn *,
+.header-phone,
+.nav-cta,
+.menu-toggle,
+.faq-question,
+.mobile-nav-link,
+select,
+label,
+summary {
+  cursor: pointer !important;
+}
+input, textarea {
+  cursor: text !important;
+}
+.ba-comparison,
+.ba-comparison *,
+.ba-handle,
+.ba-handle * {
+  cursor: ew-resize !important;
+}
