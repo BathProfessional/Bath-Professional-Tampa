@@ -351,6 +351,26 @@
     });
   });
 
+  if (document.querySelector('.compare-wrap')) {
+    gsap.from('.compare-wrap', {
+      scrollTrigger: { trigger: '.compare-wrap', start: 'top 82%', once: true },
+      opacity: 0,
+      y: 40,
+      duration: 0.7,
+      ease: 'power3.out',
+    });
+    gsap.utils.toArray('.compare-table tbody tr').forEach((row, i) => {
+      gsap.from(row, {
+        scrollTrigger: { trigger: '.compare-wrap', start: 'top 78%', once: true },
+        opacity: 0,
+        y: 14,
+        duration: 0.4,
+        delay: 0.15 + i * 0.05,
+        ease: 'power2.out',
+      });
+    });
+  }
+
   // Stats fly-in
   gsap.utils.toArray('.stat-card').forEach((stat, i) => {
     gsap.to(stat, {
