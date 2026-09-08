@@ -9,7 +9,7 @@
   const REVIEWS_DATA = {
     business: 'Bath Professional',
     rating: 5.0,
-    reviewCount: 433,
+    reviewCount: 440,
     googleUrl: 'https://share.google/2lFzTu5iHsSYiOprH',
     mapsUrl: 'https://www.google.com/maps/place/Bath+Professional/@27.8128045,-82.6437443,17z',
     writeReviewUrl: 'https://g.page/r/CRrx6UP1Y3zdEBM/review',
@@ -195,8 +195,8 @@
     })
     .then((data) => {
       // Prefer live count if JSON has older value
-      if (data && typeof data.reviewCount === 'number' && data.reviewCount < 433) {
-        data.reviewCount = 433;
+      if (data && typeof data.reviewCount === 'number' && data.reviewCount < 440) {
+        data.reviewCount = 440;
       }
       window.__googleReviewsCache = data;
       renderReviews(data);
