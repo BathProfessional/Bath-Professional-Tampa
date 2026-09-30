@@ -1599,28 +1599,28 @@ select { font-family: inherit; cursor: pointer; }
 
 .why-title {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  gap: 0.18em 0.26em;
-  line-height: 1;
+  gap: 0.12em;
+  width: 100%;
+  text-align: center;
+  line-height: 1.08;
 }
 
-.why-title > span {
+.why-title .why-title-highlight {
   display: inline-flex;
-  align-items: center;
-  line-height: 1;
-}
-
-/* Outfit #1 sits optically high vs Cormorant — drop to the serif midline */
-.why-title .rank-one {
-  display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
+  gap: 0.2em;
+  white-space: nowrap;
+}
+
+/* Match the sans-serif numerals to the serif title on a shared baseline. */
+.why-title .rank-one {
+  display: inline-block;
   line-height: 1;
   font-size: 0.78em;
   letter-spacing: -0.05em;
-  position: relative;
-  top: 0.22em;
 }
 
 .why-title .rank-digit {
