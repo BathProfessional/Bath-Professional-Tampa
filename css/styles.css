@@ -1915,12 +1915,12 @@ select { font-family: inherit; cursor: pointer; }
   isolation: isolate;
   overflow: hidden;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr) minmax(0, 1fr);
   grid-template-areas: "rating details count";
   align-items: center;
-  gap: 32px;
+  gap: 24px;
   min-height: 224px;
-  padding: 32px 40px;
+  padding: 32px;
   background:
     radial-gradient(ellipse at 100% 0%, rgba(45, 212, 191, 0.14), transparent 60%),
     radial-gradient(ellipse at 0% 100%, rgba(232, 197, 71, 0.05), transparent 45%),
@@ -1945,10 +1945,11 @@ select { font-family: inherit; cursor: pointer; }
   grid-area: rating;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
-  padding-right: 32px;
+  padding-right: 24px;
   border-right: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
 }
 
 .google-summary-brand {
@@ -1968,11 +1969,12 @@ select { font-family: inherit; cursor: pointer; }
 .google-summary-score-wrap {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
 }
 
 .google-summary-score {
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 600;
   letter-spacing: -0.06em;
   line-height: 1;
@@ -1998,6 +2000,7 @@ select { font-family: inherit; cursor: pointer; }
 .google-summary-details {
   grid-area: details;
   min-width: 0;
+  text-align: center;
 }
 
 .google-summary-eyebrow {
@@ -2011,7 +2014,7 @@ select { font-family: inherit; cursor: pointer; }
 
 .google-summary-headline {
   font-family: var(--serif);
-  font-size: clamp(1.875rem, 3.1vw, 2.625rem);
+  font-size: clamp(2.25rem, 4.3vw, 3.5rem);
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -2035,14 +2038,14 @@ select { font-family: inherit; cursor: pointer; }
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  padding: 12px 0 12px 32px;
+  padding: 12px 0 12px 24px;
   border-left: 1px solid rgba(255, 255, 255, 0.12);
   text-align: center;
 }
 
 .google-summary-count strong {
   color: #7ce4cf;
-  font-size: 4.5rem;
+  font-size: 5rem;
   font-weight: 600;
   line-height: 0.9;
   letter-spacing: -0.055em;
