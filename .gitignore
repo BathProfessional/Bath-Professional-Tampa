@@ -3,3 +3,5 @@ birdeye-*.html
 google-*.html
 maps-*.html
 maps-snippet.txt
+.vercel
+.env*

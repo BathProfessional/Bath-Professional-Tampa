@@ -1,113 +1,132 @@
-/* Form submissions → support@bathprofessional.com via FormSubmit */
+/* Submit contact messages through the site's own contact endpoint. */
 (function () {
   'use strict';
 
-  const FORM_EMAIL = 'support@bathprofessional.com';
-  const FORM_ENDPOINT = `https://formsubmit.co/ajax/${FORM_EMAIL}`;
-
-  function isFileProtocol() {
-    return window.location.protocol === 'file:';
-  }
-
-  async function sendToSupport(payload) {
-    if (isFileProtocol()) {
-      throw new Error(
-        'Forms must be opened through a web server (not as a saved HTML file). Use http://localhost:8080 locally, or upload the site to your web host.'
-      );
-    }
-
-    const res = await fetch(FORM_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    let data = {};
-    try {
-      data = await res.json();
-    } catch {
-      throw new Error('Unexpected response from the form service.');
-    }
-
-    if (data.success === 'true' || data.success === true) {
-      return data;
-    }
-
-    throw new Error(data.message || 'Submission failed. Please try again or contact us by phone.');
-  }
-
-  function setStatus(el, message, type) {
-    if (!el) return;
-    el.textContent = message;
-    el.classList.remove('hidden', 'success', 'error', 'pending');
-    el.classList.add(type);
-  }
-
-  function friendlyError(err) {
-    const msg = err?.message || '';
-    if (msg.includes('Activation')) {
-      return 'Almost ready! Check support@bathprofessional.com for a FormSubmit activation email and click the link once. After that, online forms will work on localhost and your live website.';
-    }
-    if (msg.includes('web server')) {
-      return msg;
-    }
-    return msg || 'Could not send online. Please call (813) 445-9319, or email support@bathprofessional.com directly.';
-  }
-
-  // Show success if redirected back after standard form post
-  if (window.location.search.includes('sent=1')) {
-    const contactStatus = document.getElementById('contactFormStatus');
-    setStatus(contactStatus, 'Thank you! Your message was sent. We\'ll reply shortly.', 'success');
-    contactStatus?.classList.remove('hidden');
-    history.replaceState(null, '', window.location.pathname + window.location.hash);
-  }
-
-  // ─── Contact form (#contact) ───
+  const FORM_ENDPOINT = '/api/contact';
+  const SUPPORT_DETAILS = 'Please call (813) 445-9319, or email support@bathprofessional.com directly.';
   const contactForm = document.getElementById('contactForm');
   const contactStatus = document.getElementById('contactFormStatus');
   const contactBtn = document.getElementById('contactSubmitBtn');
+  let sending = false;
+  let requestPayload = null;
+  let requestId = null;
 
-  contactForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // The form's native POST remains available if JavaScript support is limited.
+  if (!contactForm || !contactBtn || typeof fetch !== 'function' || typeof AbortController !== 'function') {
+    return;
+  }
 
-    const name = document.getElementById('cfName')?.value.trim();
-    const email = document.getElementById('cfEmail')?.value.trim();
-    const phone = document.getElementById('cfPhone')?.value.trim();
-    const zipCode = document.getElementById('cfZipCode')?.value.trim();
-    const message = document.getElementById('cfMessage')?.value.trim();
+  function setStatus(message, type) {
+    if (!contactStatus) return;
+    contactStatus.textContent = message;
+    contactStatus.classList.remove('hidden', 'success', 'error', 'pending');
+    contactStatus.classList.add(type);
+  }
 
-    if (!name || !email || !phone || !zipCode || !message) {
-      setStatus(contactStatus, 'Please fill in all fields.', 'error');
-      contactStatus?.classList.remove('hidden');
-      return;
+  function submissionError(message) {
+    const error = new Error(message);
+    error.customerMessage = message;
+    return error;
+  }
+
+  function createRequestId() {
+    const browserCrypto = globalThis.crypto;
+    if (typeof browserCrypto?.randomUUID === 'function') {
+      return browserCrypto.randomUUID();
     }
+    if (typeof browserCrypto?.getRandomValues !== 'function') return null;
 
-    contactBtn.disabled = true;
-    setStatus(contactStatus, 'Sending your message…', 'pending');
-    contactStatus?.classList.remove('hidden');
+    const bytes = browserCrypto.getRandomValues(new Uint8Array(16));
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  }
+
+  async function sendToSupport(payload) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
 
     try {
-      await sendToSupport({
-        _subject: 'New Contact Message — Bath Professional Website',
-        _template: 'table',
-        _captcha: 'false',
-        name,
-        email,
-        phone,
-        zip_code: zipCode,
-        message,
+      const response = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
       });
 
-      contactForm.reset();
-      setStatus(contactStatus, 'Thank you! Your message was sent to our team. We\'ll reply shortly.', 'success');
-    } catch (err) {
-      setStatus(contactStatus, friendlyError(err), 'error');
+      let data;
+      try {
+        data = await response.json();
+      } catch (error) {
+        if (error?.name === 'AbortError') throw error;
+        throw submissionError('We could not confirm your message was sent. ' + SUPPORT_DETAILS);
+      }
+
+      if (!response.ok || data?.success !== true) {
+        throw submissionError(
+          typeof data?.message === 'string' && data.message.trim()
+            ? data.message
+            : 'We could not send your message right now. ' + SUPPORT_DETAILS
+        );
+      }
     } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  contactForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (sending) return;
+
+    const fields = ['name', 'email', 'phone', 'zip_code', 'message', 'website'];
+    const payload = {};
+    const submittedFields = [];
+    for (const name of fields) {
+      const field = contactForm.elements.namedItem(name);
+      if (field) {
+        field.value = field.value.trim();
+        payload[name] = field.value;
+        submittedFields.push({ field, readOnly: field.readOnly });
+      }
+    }
+
+    if (!contactForm.reportValidity()) return;
+
+    // Reusing this ID makes an unchanged retry safe after an uncertain response.
+    const payloadKey = JSON.stringify(payload);
+    if (payloadKey !== requestPayload) {
+      requestPayload = payloadKey;
+      requestId = createRequestId();
+    }
+    if (requestId) payload.request_id = requestId;
+
+    sending = true;
+    for (const { field } of submittedFields) field.readOnly = true;
+    contactBtn.disabled = true;
+    contactForm.setAttribute('aria-busy', 'true');
+    setStatus('Sending your message…', 'pending');
+
+    try {
+      await sendToSupport(payload);
+      requestPayload = null;
+      requestId = null;
+      contactForm.reset();
+      setStatus('Thank you! Your message was sent to our team. We\'ll reply shortly.', 'success');
+    } catch (error) {
+      const message = error?.name === 'AbortError'
+        ? 'Sending took too long, so we could not confirm your message was received. ' + SUPPORT_DETAILS
+        : error?.customerMessage || 'We could not confirm your message was sent. ' + SUPPORT_DETAILS;
+      setStatus(message, 'error');
+    } finally {
+      for (const { field, readOnly } of submittedFields) field.readOnly = readOnly;
+      sending = false;
       contactBtn.disabled = false;
+      contactForm.removeAttribute('aria-busy');
     }
   });
-
 })();

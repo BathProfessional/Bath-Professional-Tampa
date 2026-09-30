@@ -47,7 +47,7 @@
   <link rel="dns-prefetch" href="https://cdn.livechatinc.com">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="js/forms.js"></script>
+  <script defer src="js/forms.js?v=20260930"></script>
   <script defer src="js/main.js?v=compare1"></script>
   <script defer src="js/google-reviews.js?v=r440"></script>
   <script type="application/ld+json">
@@ -921,19 +921,23 @@
       <div class="container final-cta-content">
         <h2 class="final-cta-title glow-text">Contact Us Today For a FREE Estimate</h2>
         <p class="final-cta-sub">Our team replies very fast. Open 7 days a week, 8AM–7PM.</p>
-        <form class="contact-form" id="contactForm" novalidate>
+        <form class="contact-form" id="contactForm" action="/api/contact" method="post">
+          <div hidden aria-hidden="true">
+            <label for="cfWebsite">Website</label>
+            <input type="text" id="cfWebsite" name="website" tabindex="-1" autocomplete="off" maxlength="200">
+          </div>
           <div class="contact-form-grid">
             <div class="form-group">
               <label for="cfName">Your Name</label>
-              <input type="text" id="cfName" name="name" required class="form-input" placeholder="Full name" autocomplete="name">
+              <input type="text" id="cfName" name="name" required maxlength="120" class="form-input" placeholder="Full name" autocomplete="name">
             </div>
             <div class="form-group">
               <label for="cfEmail">Email</label>
-              <input type="email" id="cfEmail" name="email" required class="form-input" placeholder="you@email.com" autocomplete="email">
+              <input type="email" id="cfEmail" name="email" required maxlength="254" class="form-input" placeholder="you@email.com" autocomplete="email">
             </div>
             <div class="form-group">
               <label for="cfPhone">Phone</label>
-              <input type="tel" id="cfPhone" name="phone" required class="form-input" placeholder="(813) 555-0100" autocomplete="tel">
+              <input type="tel" id="cfPhone" name="phone" required maxlength="40" class="form-input" placeholder="(813) 555-0100" autocomplete="tel">
             </div>
             <div class="form-group">
               <label for="cfZipCode">Zip Code</label>
@@ -941,7 +945,7 @@
             </div>
             <div class="form-group contact-form-full">
               <label for="cfMessage">How Can We Help?</label>
-              <textarea id="cfMessage" name="message" rows="4" required class="form-input form-textarea" placeholder="Tell us about your tub, shower, tile, or countertop project..."></textarea>
+              <textarea id="cfMessage" name="message" rows="4" required maxlength="5000" class="form-input form-textarea" placeholder="Tell us about your tub, shower, tile, or countertop project..."></textarea>
             </div>
           </div>
           <button type="submit" class="btn btn-cta-massive glow-btn" id="contactSubmitBtn">Send Message</button>
