@@ -5,24 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Bath Professional privacy policy — how we collect, use, and protect your personal information for Tampa bathtub refinishing customers.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.bathprofessional.com/privacy-policy.html">
+  <link rel="canonical" href="https://bath-professional.com/privacy-policy">
   <title>Privacy Policy | Bath Professional — Tampa Bathtub Refinishing</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/QGYvz_MVcBeNP4NJtEtq.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css?v=20260930">
   <style>
     html, body, body * { cursor: auto !important; }
     a, a *, button, button *, .btn, .header-phone, .nav-cta, .menu-toggle, .faq-question, .mobile-nav-link { cursor: pointer !important; }
   </style>
-  <link rel="stylesheet" href="css/privacy.css?v=cursor4">
+  <link rel="stylesheet" href="css/privacy.css?v=perf20260930">
+  <script defer src="js/mobile-menu.js?v=20260930"></script>
 </head>
 <body>
   <!-- Mobile Menu Overlay -->
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
     <div class="mobile-menu-bg"></div>
     <nav class="mobile-nav">
       <a href="index.html#hero" class="mobile-nav-link">Home</a>
@@ -57,7 +58,7 @@
         <a href="index.html#contact">Contact Us</a>
         <a href="index.html#contact" class="nav-cta">FREE Estimate</a>
       </nav>
-      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -126,24 +127,7 @@
 
   <script>
     (function () {
-      const menuToggle = document.getElementById('menuToggle');
-      const mobileMenu = document.getElementById('mobileMenu');
       const header = document.getElementById('header');
-
-      menuToggle?.addEventListener('click', () => {
-        const open = mobileMenu.classList.toggle('open');
-        menuToggle.classList.toggle('active', open);
-        document.body.classList.toggle('menu-open', open);
-        mobileMenu.setAttribute('aria-hidden', String(!open));
-      });
-
-      document.querySelectorAll('.mobile-nav-link').forEach((link) => {
-        link.addEventListener('click', () => {
-          mobileMenu.classList.remove('open');
-          menuToggle.classList.remove('active');
-          document.body.classList.remove('menu-open');
-        });
-      });
 
       window.addEventListener('scroll', () => {
         header.classList.toggle('scrolled', window.scrollY > 80);

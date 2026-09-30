@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.bathprofessional.com/sitemap.xml
+Sitemap: https://bath-professional.com/sitemap.xml

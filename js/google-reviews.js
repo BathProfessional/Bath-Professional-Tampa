@@ -5,6 +5,13 @@
   const track = document.getElementById('googleReviewTrack');
   const summaryEl = document.getElementById('googleReviewSummary');
   if (!track) return;
+  const trackWrap = track.parentElement;
+
+  const MIN_MARQUEE_SETS = 2;
+  const MAX_MARQUEE_SETS = 10;
+  const REVIEW_GAP_BUFFER = 24;
+  let marqueeReviews = [];
+  let lastViewportWidth = 0;
 
   const REVIEWS_DATA = {
     business: 'Bath Professional',
@@ -120,29 +127,26 @@
     `;
   }
 
-  function appendSet(reviews) {
-    reviews.forEach((review) => track.appendChild(renderCard(review)));
+  function appendSets(reviews, count) {
+    const fragment = document.createDocumentFragment();
+    for (let set = 0; set < count; set++) {
+      reviews.forEach((review) => fragment.appendChild(renderCard(review)));
+    }
+    track.appendChild(fragment);
   }
 
   /** Build a seamless infinite marquee: enough copies that the row never shows blank. */
-  function buildMarquee(reviews) {
+  function buildMarquee(reviews, viewportWidth) {
     track.innerHTML = '';
     track.classList.remove('is-ready');
     if (!reviews.length) return;
 
-    // Always at least 2 identical sets for the -Npx loop
-    appendSet(reviews);
-    appendSet(reviews);
+    const viewport = Math.round(viewportWidth || trackWrap?.clientWidth || window.innerWidth || 0);
+    lastViewportWidth = viewport;
 
-    const trackWrap = track.parentElement;
-    const viewport = trackWrap ? trackWrap.clientWidth : window.innerWidth;
-    // Keep adding full sets until track is long enough that one loop distance
-    // never leaves empty space visible (3x viewport is a safe buffer).
-    let guard = 0;
-    while (track.scrollWidth < viewport * 3 + 200 && guard < 8) {
-      appendSet(reviews);
-      guard += 1;
-    }
+    // Two sets are enough to measure one exact loop without alternating
+    // layout reads and DOM writes.
+    appendSets(reviews, MIN_MARQUEE_SETS);
 
     // Exact pixel distance of ONE original set (first card → first card of next set)
     const setSize = reviews.length;
@@ -150,10 +154,19 @@
     const nextSetFirst = track.children[setSize];
     if (!first || !nextSetFirst) return;
 
-    // Force layout
-    void track.offsetWidth;
     const distance = nextSetFirst.offsetLeft - first.offsetLeft;
     if (distance <= 0) return;
+
+    // At the end of a loop, the row still needs one viewport of content beyond
+    // the translated set. Append all additional sets in one fragment.
+    const requiredWidth = distance + viewport + REVIEW_GAP_BUFFER;
+    const setCount = Math.min(
+      MAX_MARQUEE_SETS,
+      Math.max(MIN_MARQUEE_SETS, Math.ceil(requiredWidth / distance)),
+    );
+    if (setCount > MIN_MARQUEE_SETS) {
+      appendSets(reviews, setCount - MIN_MARQUEE_SETS);
+    }
 
     // Duration scales with distance so speed stays similar (~40px/s)
     const seconds = Math.max(28, Math.round(distance / 40));
@@ -161,36 +174,58 @@
     track.style.setProperty('--review-scroll-duration', `${seconds}s`);
     track.classList.add('is-ready');
 
-    // Pause marquee when reviews section is off-screen
-    const section = track.closest('.google-reviews') || trackWrap;
-    if (section && 'IntersectionObserver' in window) {
-      if (track._io) track._io.disconnect();
-      track._io = new IntersectionObserver(([entry]) => {
-        track.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
-      }, { rootMargin: '100px 0px', threshold: 0.05 });
-      track._io.observe(section);
-    }
   }
 
   function renderReviews(data) {
     renderSummary(data);
-    const reviews = (data.reviews || []).filter((r) => r.rating >= 4);
-    buildMarquee(reviews);
+    marqueeReviews = (data.reviews || []).filter((r) => r.rating >= 4);
+    buildMarquee(marqueeReviews);
+  }
+
+  // One observer lasts for the lifetime of the marquee. A CSS variable keeps
+  // off-screen pausing compatible with the :hover pause rule.
+  const reviewsSection = track.closest('.google-reviews') || trackWrap;
+  if (reviewsSection && 'IntersectionObserver' in window) {
+    const visibilityObserver = new window.IntersectionObserver(([entry]) => {
+      track.style.setProperty('--review-visibility-state', entry.isIntersecting ? 'running' : 'paused');
+    }, { rootMargin: '100px 0px', threshold: 0.05 });
+    visibilityObserver.observe(reviewsSection);
   }
 
   let resizeTimer = 0;
-  window.addEventListener('resize', () => {
+  let pendingViewportWidth = 0;
+
+  function scheduleMarqueeResize(width) {
+    const nextWidth = Math.round(width || 0);
+    if (!nextWidth || nextWidth === lastViewportWidth) {
+      pendingViewportWidth = 0;
+      clearTimeout(resizeTimer);
+      resizeTimer = 0;
+      return;
+    }
+
+    pendingViewportWidth = nextWidth;
     clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
-      const cards = track.querySelectorAll('.google-review-card');
-      if (!cards.length) return;
-      // Rebuild from first unique set of authors in embedded order is hard;
-      // re-fetch last data via re-render from cache if present
-      if (window.__googleReviewsCache) {
-        renderReviews(window.__googleReviewsCache);
+      resizeTimer = 0;
+      const widthToRender = pendingViewportWidth;
+      pendingViewportWidth = 0;
+      if (marqueeReviews.length && widthToRender !== lastViewportWidth) {
+        buildMarquee(marqueeReviews, widthToRender);
       }
     }, 200);
-  });
+  }
+
+  if (trackWrap && 'ResizeObserver' in window) {
+    const resizeObserver = new window.ResizeObserver(([entry]) => {
+      scheduleMarqueeResize(entry.contentRect.width);
+    });
+    resizeObserver.observe(trackWrap);
+  } else {
+    window.addEventListener('resize', () => {
+      scheduleMarqueeResize(trackWrap?.clientWidth || window.innerWidth);
+    });
+  }
 
   fetch('data/google-reviews.json?v=r444')
     .then((res) => {

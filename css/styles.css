@@ -49,7 +49,7 @@ body {
   cursor: auto;
 }
 
-body.menu-open { overflow: hidden; }
+html.menu-open, body.menu-open { overflow: hidden; }
 
 img, video { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; cursor: pointer; }
@@ -2115,6 +2115,7 @@ select { font-family: inherit; cursor: pointer; }
 
 .google-review-track.is-ready {
   animation: googleReviewScroll var(--review-scroll-duration) linear infinite;
+  animation-play-state: var(--review-visibility-state, running);
 }
 
 .google-review-track:hover { animation-play-state: paused; }

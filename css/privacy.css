@@ -33,7 +33,7 @@ body {
   cursor: auto;
 }
 
-body.menu-open { overflow: hidden; }
+html.menu-open, body.menu-open { overflow: hidden; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 a { cursor: pointer; }
