@@ -99,20 +99,24 @@
     if (!summaryEl) return;
     summaryEl.innerHTML = `
       <div class="google-summary-rating">
-        <img src="images/google-g-logo.svg" alt="Google" width="40" height="40" loading="lazy" decoding="async">
+        <div class="google-summary-brand">
+          <img src="images/google-g-logo.svg" alt="" width="22" height="22" loading="lazy" decoding="async">
+          <span>Google rating</span>
+        </div>
         <div class="google-summary-score-wrap">
-          <div class="google-summary-score">${data.rating}<span>/5</span></div>
-          <div class="google-summary-stars" aria-label="${data.rating} out of 5 stars">${stars(data.rating)}</div>
+          <div class="google-summary-score">${Number(data.rating).toFixed(1)}<span>/5</span></div>
+          <div class="google-summary-stars" aria-hidden="true">${stars(data.rating)}</div>
         </div>
       </div>
       <div class="google-summary-details">
-        <p class="google-summary-count"><strong>${data.reviewCount.toLocaleString()}</strong> verified Google reviews</p>
-        <p class="google-summary-tagline">Highest-rated refinishing company in Florida</p>
+        <p class="google-summary-eyebrow">Our reputation. Your peace of mind.</p>
+        <h3 class="google-summary-headline">Beautiful results.<br><span>Happy customers.</span></h3>
+        <p class="google-summary-tagline">Real feedback. Lasting impressions.</p>
       </div>
-      <div class="google-summary-actions">
-        <button type="button" class="btn btn-review-outline">Read All Reviews</button>
-        <button type="button" class="btn btn-primary btn-sm">Write a Review</button>
-      </div>
+      <p class="google-summary-count">
+        <strong>${data.reviewCount.toLocaleString()}</strong>
+        <span class="google-summary-verified"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="m8 12 2.5 2.5L16 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>verified Google reviews</span>
+      </p>
     `;
   }
 

@@ -1911,113 +1911,157 @@ select { font-family: inherit; cursor: pointer; }
 }
 
 .google-reviews-sidebar {
-  display: flex;
-  flex-wrap: wrap;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "rating details count";
   align-items: center;
-  justify-content: space-between;
-  gap: 24px 40px;
-  background: linear-gradient(135deg, rgba(0, 212, 200, 0.07) 0%, var(--navy-800) 45%, var(--navy-900) 100%);
-  border: 1px solid rgba(0, 212, 200, 0.14);
+  gap: 32px;
+  min-height: 224px;
+  padding: 32px 40px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(45, 212, 191, 0.14), transparent 60%),
+    radial-gradient(ellipse at 0% 100%, rgba(232, 197, 71, 0.05), transparent 45%),
+    linear-gradient(115deg, #0c1726, #0c1b2d 60%, #0b212d);
+  border: 1px solid rgba(94, 216, 197, 0.22);
   border-radius: 24px;
-  padding: 28px 36px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 16px 48px rgba(0, 0, 0, 0.22);
+}
+
+.google-reviews-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(113, 230, 211, 0.7), transparent);
+  pointer-events: none;
 }
 
 .google-summary-rating {
+  grid-area: rating;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding-right: 32px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.google-summary-brand {
   display: flex;
   align-items: center;
-  gap: 18px;
-  flex-shrink: 0;
+  gap: 10px;
+  color: var(--white-90);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.google-summary-brand img {
+  flex: 0 0 auto;
 }
 
 .google-summary-score-wrap {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
 }
 
 .google-summary-score {
-  font-size: 2.75rem;
-  font-weight: 800;
+  font-size: 3.5rem;
+  font-weight: 600;
+  letter-spacing: -0.06em;
   line-height: 1;
   color: var(--white);
+  font-variant-numeric: tabular-nums;
 }
 
 .google-summary-score span {
-  font-size: 1.125rem;
+  margin-left: 6px;
+  font-size: 1rem;
+  letter-spacing: 0;
   color: var(--white-70);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .google-summary-stars {
   color: var(--gold-light);
-  font-size: 1.125rem;
+  font-size: 1rem;
+  line-height: 1;
   letter-spacing: 3px;
 }
 
 .google-summary-details {
-  flex: 1;
-  min-width: 200px;
+  grid-area: details;
+  min-width: 0;
 }
 
-.google-summary-count {
-  font-size: 1rem;
-  color: var(--white-90);
-  margin-bottom: 4px;
-  line-height: 1.4;
-}
-
-.google-summary-count strong {
+.google-summary-eyebrow {
+  margin-bottom: 10px;
   color: var(--teal-bright);
-  font-size: 1.25rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.google-summary-headline {
+  font-family: var(--serif);
+  font-size: clamp(1.875rem, 3.1vw, 2.625rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.google-summary-headline span {
+  color: var(--teal-bright);
+  font-style: italic;
+  font-weight: 400;
 }
 
 .google-summary-tagline {
-  font-size: 0.875rem;
+  margin-top: 12px;
+  font-size: 0.8125rem;
   color: var(--white-70);
-  margin: 0;
 }
 
-.google-summary-actions {
+.google-summary-count {
+  grid-area: count;
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0 12px 32px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
 }
 
-.google-summary-actions .btn {
-  justify-content: center;
-  font-size: 0.875rem;
-  padding: 12px 22px;
-  white-space: nowrap;
-  cursor: pointer;
-  font-family: inherit;
+.google-summary-count strong {
+  color: #7ce4cf;
+  font-size: 4.5rem;
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  font-variant-numeric: tabular-nums;
 }
 
-.google-summary-actions .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 40px var(--teal-glow), 0 8px 24px rgba(0, 0, 0, 0.25);
-}
-
-.btn-review-outline {
+.google-summary-verified {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 22px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  border-radius: 100px;
-  color: var(--teal-bright);
-  border: 1px solid var(--teal);
-  background: rgba(0, 212, 200, 0.06);
-  transition: all 0.3s;
+  justify-content: center;
+  gap: 6px;
+  color: var(--white-90);
+  font-size: 0.75rem;
+  line-height: 1.4;
 }
 
-.btn-review-outline:hover {
-  background: var(--teal);
-  color: var(--navy-950);
-  box-shadow: 0 0 24px var(--teal-glow);
-  transform: translateY(-2px);
+.google-summary-verified svg {
+  flex: 0 0 auto;
+  color: var(--teal-bright);
 }
 
 .google-summary-loading,
@@ -2186,27 +2230,31 @@ select { font-family: inherit; cursor: pointer; }
 
 @media (max-width: 900px) {
   .google-reviews-sidebar {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "details details" "rating count";
+    gap: 24px 0;
     text-align: center;
-    padding: 28px 24px;
+    padding: 28px;
   }
 
   .google-summary-rating {
-    justify-content: center;
+    align-items: center;
+    padding: 0 16px 0 0;
   }
 
   .google-summary-details {
-    min-width: 0;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .google-summary-actions {
-    justify-content: center;
+  .google-summary-headline {
+    font-size: 2.25rem;
   }
 
-  .google-summary-actions .btn {
-    flex: 1;
-    min-width: 140px;
+  .google-summary-count {
+    align-self: center;
+    padding: 0 0 0 16px;
+    border: 0;
   }
 
   .google-review-fade {
@@ -3315,11 +3363,26 @@ select { font-family: inherit; cursor: pointer; }
   }
 
   .google-reviews-sidebar {
-    padding: 22px 18px;
+    padding: 26px 20px;
+    border-radius: 20px;
   }
 
-  .google-summary-actions .btn {
-    width: 100%;
+  .google-summary-score {
+    font-size: 2.75rem;
+  }
+
+  .google-summary-count strong {
+    font-size: 3.25rem;
+  }
+
+  .google-summary-verified {
+    max-width: 130px;
+    font-size: 0.6875rem;
+  }
+
+  .google-summary-stars {
+    font-size: 0.875rem;
+    letter-spacing: 2px;
   }
 
   .google-review-card {
