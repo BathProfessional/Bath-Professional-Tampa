@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://bath-professional.com/sitemap.xml

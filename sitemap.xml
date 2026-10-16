@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://bath-professional.com/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://bath-professional.com/images/hero-pristine.jpg</image:loc>
+      <image:title>Bathtub Refinishing Tampa FL — Bath Professional</image:title>
+      <image:caption>Gleaming refinished clawfoot bathtub in Tampa, Florida by Bath Professional</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bath-professional.com/images/after-1.webp</image:loc>
+      <image:title>After Bathtub Refinishing &amp; Reglazing in Tampa, FL</image:title>
+      <image:caption>Restored porcelain bathtub after professional reglazing by Bath Professional Tampa</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bath-professional.com/images/after-2.webp</image:loc>
+      <image:title>After Shower Refinishing &amp; Resurfacing in Tampa, FL</image:title>
+      <image:caption>Refinished shower enclosure and tile in Tampa Bay by Bath Professional</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bath-professional.com/images/after-3.webp</image:loc>
+      <image:title>After Full Bathroom &amp; Tile Refinishing in Tampa, FL</image:title>
+      <image:caption>Complete bathroom and ceramic tile resurfacing in Tampa, FL by Bath Professional</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bath-professional.com/images/after-4.webp</image:loc>
+      <image:title>After Sink Refinishing in Tampa, FL</image:title>
+      <image:caption>Porcelain bathroom sink restored to like-new condition by Bath Professional Tampa</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bath-professional.com/images/after-5.webp</image:loc>
+      <image:title>After Multi-Stone Countertop Refinishing in Tampa, FL</image:title>
+      <image:caption>Bathroom vanity countertop resurfaced with Multi-Stone coating by Bath Professional</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bath-professional.com/images/after-6.webp</image:loc>
+      <image:title>After Bathroom &amp; Kitchen Cabinet Refinishing in Tampa, FL</image:title>
+      <image:caption>Refinished bathroom cabinetry in Tampa Bay by Bath Professional</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://bath-professional.com/privacy-policy</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
