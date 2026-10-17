@@ -2,22 +2,24 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
+# Google Search, Gemini & Google AI Overviews
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
 
-User-agent: Bingbot
+User-agent: Google-Extended
 Allow: /
 Disallow: /api/
 
-User-agent: DuckDuckBot
+User-agent: GoogleOther
 Allow: /
 Disallow: /api/
 
-User-agent: Applebot
+User-agent: Google-CloudVertexBot
 Allow: /
 Disallow: /api/
 
+# OpenAI / ChatGPT Search & Browse
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /api/
@@ -30,15 +32,71 @@ User-agent: GPTBot
 Allow: /
 Disallow: /api/
 
-User-agent: PerplexityBot
+# xAI / Grok
+User-agent: GrokBot
 Allow: /
 Disallow: /api/
 
+User-agent: xAI-Bot
+Allow: /
+Disallow: /api/
+
+User-agent: xAI-Crawler
+Allow: /
+Disallow: /api/
+
+# Anthropic / Claude & Brave Search
 User-agent: ClaudeBot
 Allow: /
 Disallow: /api/
 
-User-agent: Google-Extended
+User-agent: Claude-Web
+Allow: /
+Disallow: /api/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+
+User-agent: Bravebot
+Allow: /
+Disallow: /api/
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /api/
+
+# Microsoft Bing / Copilot, DuckDuckGo, Apple Intelligence & Meta AI
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/
+
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /api/
+
+User-agent: Meta-ExternalFetcher
 Allow: /
 Disallow: /api/
 
