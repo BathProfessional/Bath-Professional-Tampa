@@ -1,0 +1,32 @@
+{
+  "name": "Bath Professional — Bathtub Refinishing Tampa FL",
+  "short_name": "Bath Professional",
+  "description": "Tampa's #1 Bathtub Refinishing, Reglazing & Resurfacing Experts. Restore tubs, showers, tile, countertops, cabinets & sinks in 2–4 hours. Save over 80% vs. replacement. 5.0★ rated (444+ Google reviews).",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#070b12",
+  "theme_color": "#070b12",
+  "lang": "en-US",
+  "categories": ["business", "home", "lifestyle"],
+  "icons": [
+    {
+      "src": "/images/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

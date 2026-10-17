@@ -14,6 +14,8 @@ test('index.html has complete SEO metadata, valid JSON-LD graph, descriptive ima
   assert.match(html, /<title>Bathtub Refinishing Tampa FL \| Tub Reglazing &amp; Resurfacing — Bath Professional<\/title>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/bath-professional\.com\/">/);
   assert.match(html, /<link rel="alternate" hreflang="en-US" href="https:\/\/bath-professional\.com\/">/);
+  assert.match(html, /<link rel="manifest" href="\/site\.webmanifest">/);
+  assert.match(html, /<link rel="alternate" type="text\/plain" href="\/llms\.txt" title="LLM Context">/);
   assert.match(html, /<meta property="og:image:width" content="1280">/);
   assert.match(html, /<meta property="og:image:height" content="720">/);
 
@@ -46,21 +48,38 @@ test('index.html has complete SEO metadata, valid JSON-LD graph, descriptive ima
 test('privacy-policy.html has valid JSON-LD and canonical metadata', () => {
   const html = fs.readFileSync(path.join(root, 'privacy-policy.html'), 'utf8');
   assert.match(html, /<link rel="canonical" href="https:\/\/bath-professional\.com\/privacy-policy">/);
+  assert.match(html, /<link rel="manifest" href="\/site\.webmanifest">/);
   const ldMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   assert.ok(ldMatch, 'privacy-policy.html must contain a JSON-LD script block');
   const schema = JSON.parse(ldMatch[1]);
   assert.equal(schema['@graph'].length, 2);
 });
 
-test('sitemap.xml, robots.txt, and vercel.json are valid and configured for SEO', () => {
+test('sitemap.xml, robots.txt, vercel.json, llms.txt, site.webmanifest, and IndexNow key are valid and configured for SEO', () => {
   const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
   assert.match(sitemap, /xmlns:image="http:\/\/www\.google\.com\/schemas\/sitemap-image\/1\.1"/);
   assert.match(sitemap, /https:\/\/bath-professional\.com\/images\/hero-pristine\.jpg/);
 
   const robots = fs.readFileSync(path.join(root, 'robots.txt'), 'utf8');
   assert.match(robots, /Disallow: \/api\//);
+  assert.match(robots, /User-agent: OAI-SearchBot/);
   assert.match(robots, /Sitemap: https:\/\/bath-professional\.com\/sitemap\.xml/);
 
   const vercelConfig = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));
   assert.ok(Array.isArray(vercelConfig.headers));
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'site.webmanifest'), 'utf8'));
+  assert.equal(manifest.short_name, 'Bath Professional');
+  assert.ok(Array.isArray(manifest.icons) && manifest.icons.length >= 3);
+
+  const llms = fs.readFileSync(path.join(root, 'llms.txt'), 'utf8');
+  assert.match(llms, /\(813\) 536-5956/);
+  assert.match(llms, /Tampa/);
+
+  const llmsFull = fs.readFileSync(path.join(root, 'llms-full.txt'), 'utf8');
+  assert.match(llmsFull, /5-Year/);
+  assert.match(llmsFull, /ISO-FREE/);
+
+  const indexNowKey = fs.readFileSync(path.join(root, 'e819a4d27f3c40b6852e9c1a7d3b64f0.txt'), 'utf8').trim();
+  assert.equal(indexNowKey, 'e819a4d27f3c40b6852e9c1a7d3b64f0');
 });
