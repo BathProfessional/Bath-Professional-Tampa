@@ -73,7 +73,7 @@ test('sitemap.xml, robots.txt, vercel.json, llms.txt, site.webmanifest, and Inde
   assert.ok(Array.isArray(manifest.icons) && manifest.icons.length >= 3);
 
   const llms = fs.readFileSync(path.join(root, 'llms.txt'), 'utf8');
-  assert.match(llms, /\(813\) 536-5956/);
+  assert.match(llms, /\(813\) 445-9319/);
   assert.match(llms, /Tampa/);
 
   const llmsFull = fs.readFileSync(path.join(root, 'llms-full.txt'), 'utf8');

@@ -5,7 +5,7 @@
 ## Key Business Facts
 - **Business Name**: Bath Professional (Bath Professional Tampa)
 - **Website**: https://bath-professional.com/
-- **Phone**: (813) 536-5956 (`tel:+18135365956`)
+- **Phone**: (813) 445-9319 (`tel:+18134459319`)
 - **Email**: support@BathProfessional.com
 - **Hours**: Monday–Sunday, 8:00 AM – 7:00 PM EST (Open 7 days a week)
 - **Headquarters / Primary Market**: Tampa, FL 33602 (Serving Greater Tampa Bay & West Central Florida)
@@ -32,5 +32,5 @@
 
 ## Additional Resources
 - [Full AI & Service Reference (`llms-full.txt`)](https://bath-professional.com/llms-full.txt): Detailed 4-step refinishing process, refinishing vs. remodeling comparison table, complete FAQ answers, finish colors, and verified customer testimonials.
-- [Request a Free Estimate](https://bath-professional.com/#contact): Online quote form or call (813) 536-5956.
+- [Request a Free Estimate](https://bath-professional.com/#contact): Online quote form or call (813) 445-9319.
 - [Privacy Policy](https://bath-professional.com/privacy-policy.html)
